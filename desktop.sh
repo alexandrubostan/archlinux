@@ -13,7 +13,7 @@ ext4fs () {
     mkfs.ext4 "$HOME"
     mount "$ROOT" /mnt
     mount --mkdir "$HOME" /mnt/home
-    mount --mkdir "$EFI" /mnt/boot
+    mount --mkdir "$EFI" /mnt/efi
 }
 
 ext4fs
@@ -33,7 +33,38 @@ arch-chroot /mnt locale-gen
 
 echo 'LANG=en_US.UTF-8' | tee /mnt/etc/locale.conf > /dev/null
 echo 'ArchBox' | tee /mnt/etc/hostname > /dev/null
-arch-chroot /mnt bootctl install
+
+ROOTUUID=$(blkid -s UUID -o value "$ROOT")
+mkdir -p /mnt/etc/cmdline.d
+echo "root=UUID=$ROOTUUID rw" | tee /mnt/etc/cmdline.d/root.conf > /dev/null
+
+tee /mnt/etc/mkinitcpio.d/linux.preset > /dev/null << EOF
+# mkinitcpio preset file for the 'linux' package
+
+#ALL_config="/etc/mkinitcpio.conf"
+ALL_kver="/boot/vmlinuz-linux"
+
+PRESETS=('default')
+
+#default_config="/etc/mkinitcpio.conf"
+#default_image="/boot/initramfs-linux.img"
+default_uki="/efi/EFI/Linux/arch-linux.efi"
+default_options=""
+EOF
+
+efistub () {
+    mkdir -p /mnt/efi/EFI/Linux
+    arch-chroot /mnt mkinitcpio -p linux
+    
+    efibootmgr --create --disk "$DRIVE" --part "$EFIPART" --label "Arch Linux" --loader 'EFI/Linux/arch-linux.efi' --unicode
+}
+systemd_boot () {
+    arch-chroot /mnt bootctl install
+    arch-chroot /mnt mkinitcpio -p linux
+}
+
+systemd_boot
+#efistub
 
 install_kde () {
     arch-chroot /mnt pacman -S --needed \
