@@ -10,7 +10,6 @@ EFIPART=1
 
 ext4fs () {
     mkfs.ext4 "$ROOT"
-    mkfs.ext4 "$HOME"
     mount "$ROOT" /mnt
     mount --mkdir "$HOME" /mnt/home
     mount --mkdir "$EFI" /mnt/efi
