@@ -18,6 +18,7 @@ ext4luksfs () {
 ext4luksfs
 
 pacstrap -K /mnt base linux linux-firmware vim sudo intel-ucode networkmanager
+genfstab -U /mnt >> /mnt/etc/fstab
 
 echo '%wheel      ALL=(ALL:ALL) NOPASSWD: ALL' | tee -a /mnt/etc/sudoers > /dev/null
 
