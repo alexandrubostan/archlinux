@@ -32,8 +32,9 @@ arch-chroot /mnt locale-gen
 echo 'LANG=en_US.UTF-8' | tee /mnt/etc/locale.conf > /dev/null
 echo 'ArchBox' | tee /mnt/etc/hostname > /dev/null
 
+ROOTUUID=$(blkid -s UUID -o value "$ROOT")
 mkdir -p /mnt/etc/cmdline.d
-echo 'rw' | tee /mnt/etc/cmdline.d/root.conf > /dev/null
+echo "root=UUID=$ROOTUUID rw" | tee /mnt/etc/cmdline.d/root.conf > /dev/null
 
 tee /mnt/etc/mkinitcpio.d/linux.preset > /dev/null << EOF
 # mkinitcpio preset file for the 'linux' package
@@ -56,7 +57,7 @@ BINARIES=()
 
 FILES=()
 
-HOOKS=(systemd autodetect microcode modconf keyboard block sd-encrypt filesystems fsck)
+HOOKS=(base udev autodetect microcode modconf keyboard consolefont block encrypt filesystems fsck)
 EOF
 
 efistub () {
