@@ -4,14 +4,12 @@ set -eo pipefail
 
 EFI='/dev/nvme0n1p1'
 ROOT='/dev/nvme0n1p2'
-HOME='/dev/nvme0n1p3'
 DRIVE='/dev/nvme0n1'
 EFIPART=1
 
 ext4fs () {
     mkfs.ext4 "$ROOT"
     mount "$ROOT" /mnt
-    mount --mkdir "$HOME" /mnt/home
     mount --mkdir "$EFI" /mnt/efi
 }
 
@@ -87,51 +85,13 @@ install_kde () {
     sddm-kcm \
     xdg-desktop-portal-kde \
     xdg-desktop-portal-gtk \
-    konsole \
-    dolphin \
-    kate \
-    filelight \
-    ark \
-    p7zip
+    kitty \
+    dolphin
     
     systemctl enable sddm.service --root=/mnt
 }
 
-install_gnome () {
-    arch-chroot /mnt pacman -S --needed \
-    baobab \
-    gdm \
-    gnome-calendar \
-    gnome-characters \
-    gnome-clocks \
-    gnome-console \
-    gnome-control-center \
-    gnome-disk-utility \
-    gnome-font-viewer \
-    gnome-keyring \
-    gnome-logs \
-    gnome-session \
-    gnome-settings-daemon \
-    gnome-shell \
-    gnome-tweaks \
-    gnome-system-monitor \
-    gnome-text-editor \
-    grilo-plugins \
-    gvfs \
-    gvfs-mtp \
-    loupe \
-    malcontent \
-    nautilus \
-    sushi \
-    tecla \
-    xdg-desktop-portal-gnome \
-    xdg-user-dirs-gtk
-    
-    systemctl enable gdm.service --root=/mnt
-}
-
 install_kde
-#install_gnome
 
 systemctl enable fstrim.timer --root=/mnt
 systemctl enable NetworkManager.service --root=/mnt
