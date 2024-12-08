@@ -113,7 +113,10 @@ install_kde () {
     vulkan-tools \
     wine \
     wine-gecko \
-    wine-mono
+    wine-mono \
+    ark \
+    p7zip \
+    discord
     
     systemctl enable sddm.service --root=/mnt
 }
