@@ -88,7 +88,18 @@ install_kde () {
     xdg-desktop-portal-kde \
     xdg-desktop-portal-gtk \
     kitty \
-    dolphin
+    dolphin \
+    firefox \
+    chromium \
+    filelight \
+    pipewire \
+    pipewire-alsa \
+    alsa-utils \
+    pipewire-jack \
+    pipewire-pulse
+    gst-plugin-pipewire \
+    libpulse \
+    wireplumber
     
     systemctl enable sddm.service --root=/mnt
 }
