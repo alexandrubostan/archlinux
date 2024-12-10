@@ -99,24 +99,12 @@ install_kde () {
     pipewire-alsa \
     alsa-utils \
     pipewire-jack \
-    pipewire-pulse
+    pipewire-pulse \
     gst-plugin-pipewire \
-    libpulse \
-    wireplumber \
-    lutris \
-    gamemode \
-    lib32-gamemode \
-    lib32-vulkan-icd-loader \
-    lib32-libpulse \
-    umu-launcher \
-    vulkan-icd-loader \
-    vulkan-tools \
-    wine \
-    wine-gecko \
-    wine-mono \
     ark \
     p7zip \
-    discord
+    discord \
+    steam
     
     systemctl enable sddm.service --root=/mnt
 }
