@@ -90,7 +90,7 @@ install_kde () {
     sddm-kcm \
     xdg-desktop-portal-kde \
     xdg-desktop-portal-gtk \
-    kitty \
+    konsole \
     dolphin \
     firefox \
     chromium \
@@ -101,10 +101,7 @@ install_kde () {
     pipewire-jack \
     pipewire-pulse \
     gst-plugin-pipewire \
-    ark \
-    p7zip \
-    discord \
-    steam
+    ark
     
     systemctl enable sddm.service --root=/mnt
 }
